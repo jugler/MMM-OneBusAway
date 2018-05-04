@@ -15,7 +15,7 @@ Module.register("MMM-OneBusAway",{
 	getDom: function() {
        if (this.result.length==0){
            Log.log("Departures list is empty");
-           this.message = "No buses departing soon, please check again later";
+           this.message = "No buses departing soon";
        } else{ //extract times of arrival for the buses
             var departureMessage = "";
             for(var departure in this.result){
@@ -34,9 +34,15 @@ Module.register("MMM-OneBusAway",{
        }
         var html = this.message;
         var wrapper = document.createElement("div");
-		wrapper.innerHTML = html;
+        wrapper.className = "oneBusAway";
+        var busesText = document.createElement("span");
+        busesText.innerHTML = this.message;
+		wrapper.appendChild(busesText);
 		return wrapper;
     },
+    getStyles: function() {
+		return ["MMM-OneBusAway.css"];
+	},
     
     start: function() {
         var self = this;

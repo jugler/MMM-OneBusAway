@@ -5,6 +5,7 @@ scp config.js pi@pi:MagicMirror/config/config.js
 echo "Updating module MMM-OneBusAway"
 scp MMM-OneBusAway.js pi@pi:MagicMirror/modules/MMM-OneBusAway/MMM-OneBusAway.js
 scp node_helper.js pi@pi:MagicMirror/modules/MMM-OneBusAway/node_helper.js
+scp MMM-OneBusAway.css pi@pi:MagicMirror/modules/MMM-OneBusAway/MMM-OneBusAway.css
 
 echo "Restarting MagicMirror"
 ssh pi@pi 'pm2 restart mm'
