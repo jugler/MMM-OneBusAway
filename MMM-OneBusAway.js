@@ -2,7 +2,6 @@
 
 Module.register("MMM-OneBusAway",{
     result: [],
-    count: 3,
     message: 'Loading...',
 	// Default module config.
 	defaults: {
