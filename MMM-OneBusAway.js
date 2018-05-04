@@ -1,6 +1,6 @@
 //helloworld.js:
 
-Module.register("OneBusAway",{
+Module.register("MMM-OneBusAway",{
 	// Default module config.
 	defaults: {
 		text: "OneBusAway Widget hello world!"
