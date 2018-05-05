@@ -36,10 +36,8 @@ var config = {
 		},
 		{
 			module: 'MMM-OneBusAway',
-			position: 'middle_center',
-			config: {
-				text: "Config from OneBusAway"
-			}
+			position: 'middle_center'
+			
 		},
 	]
 

@@ -2,82 +2,82 @@
 
 Module.register("MMM-OneBusAway",{
     result: [],
-    message: 'Loading...',
 	// Default module config.
 	defaults: {
-        text: "OneBusAway Widget hello world!",
         stopId: "1_905",
-        routes: ["1_100146","40_100236"],
-        fadeSpeed: 1000
+        fadeSpeed: 1000*60 // update every minute
 	},
 
 	// Override dom generator.
 	getDom: function() {
         var wrapper = document.createElement("div");
         wrapper.className = "oneBusAway";
-        if (this.result.length==0){
-            Log.log("Departures list is empty");
+        if (this.hasLoaded == false){   //No data has arrived
+            var loadingMessage = document.createElement("span");
+            loadingMessage.innerHTML = "Checking Bus status...";
+            wrapper.appendChild(loadingMessage); 
+        }else if (this.result.length==0){ //No buses right now
+            var noBuses = document.createElement("span");
+            noBuses.innerHTML = "Checking Bus status...";
+            wrapper.appendChild(noBuses); 
             this.message = "No buses departing soon";
         } else{ //extract times of arrival for the buses
-                for(var departure in this.result){
-                    if (departure<5){
-                        var busIcon = document.createElement("img");
-                        busIcon.className = "badge";
-                        busIcon.src = "modules/MMM-OneBusAway/oba_logo.png";
-                        busIcon.style.height = "22px";
-                        busIcon.style.width = "22px";
-                        var nextStop = document.createElement("div");
-                        var nextStopText = document.createElement("span");
-                        var departureDetails = this.result[departure]
-                        var busShortName = departureDetails['routeShortName'];
-                        var busDepartureTimeStamp = departureDetails['scheduledArrivalTime'];
-                        var busDepartureDate = new Date(busDepartureTimeStamp);
-                        console.log("Departure for route: " + busShortName);
-                        console.log("Departure time: " + busDepartureDate);
-                        var dateNow = new Date();
-                        var departingInMinutes = (busDepartureDate - dateNow)/60000; //difference in minutes
-                        if (departingInMinutes>0){
-                            departingInMinutes = departingInMinutes.toFixed(0);
-                            var departureMessage =  busShortName + ": " + departingInMinutes + "mins";
-                            console.log(departureMessage);
-                            nextStopText.innerHTML = departureMessage;
-                            nextStop.appendChild(busIcon);
-                            nextStop.appendChild(nextStopText);
-                            wrapper.appendChild(nextStop);
-                        }
-                    }
-                }
-                this.message = departureMessage;
-        }
-        
+            for (var departureIndex = 0; departureIndex < this.result.length && departureIndex < 5; departureIndex++) {
+                var departureDetails = this.result[departureIndex]
+                var busShortName = departureDetails['routeShortName'];
+                var busDepartureTimeStamp = departureDetails['scheduledArrivalTime'];
+                var busEntry = this.getBusEntry(busShortName, busDepartureTimeStamp);
+                wrapper.appendChild(busEntry);
+            }
+        }        
 		return wrapper;
     },
+
+    getBusEntry: function(route, arrival){
+        var busIcon = document.createElement("img");
+        busIcon.className = "badge";
+        busIcon.src = "modules/MMM-OneBusAway/oba_logo.png";
+        busIcon.style.height = "25px";
+        busIcon.style.width = "25px";
+        var nextStop = document.createElement("div");
+        var nextStopText = document.createElement("span");
+        var busDepartureDate = new Date(arrival);
+        var dateNow = new Date();
+        var departingInMinutes = (busDepartureDate - dateNow)/60000; //difference in minutes
+        if (departingInMinutes>0){
+            departingInMinutes = departingInMinutes.toFixed(0);
+            var departureMessage = "  <b>" + route + "</b> in " + departingInMinutes + " mins";
+            nextStopText.innerHTML = departureMessage;
+            nextStop.appendChild(busIcon);
+            nextStop.appendChild(nextStopText);
+        }
+        return nextStop;
+    },
+
     getStyles: function() {
 		return ["MMM-OneBusAway.css"];
 	},
     
     start: function() {
+        this.hasLoaded = false;
+
+        this.getBusesInfo();
         var self = this;
-
-        self.getBusesInfo();
         setInterval(function() {
-          self.getBusesInfo();
-          self.updateDom();
-        },  1000*60);
-      },
-
+            self.getBusesInfo(); // no speed defined, so it updates instantly.
+        }, self.config.fadeSpeed); //perform every 1000 milliseconds.
+        
+    },
     
-    
-      getBusesInfo: function () {
+    getBusesInfo: function () {
         this.sendSocketNotification('GET_BUSES_INFO', this.config.stopId);
-      },
+    },
 
-      socketNotificationReceived: function(notification, payload) {
+    socketNotificationReceived: function(notification, payload) {
         if (notification === "BUSES_INFO") {
-            var self = this;
+            this.hasLoaded = true;
             this.result = payload;
-            //this.message = this.result.toString();
             this.updateDom();
         }
-      },
+    },
 });
