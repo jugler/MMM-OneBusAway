@@ -1,6 +1,6 @@
 #Send Magic Mirror config to pimirror
 echo "Uploading config.js to MagicMirror"
-scp config.js pi@pi:MagicMirror/config/config.js
+//scp config.js pi@pi:MagicMirror/config/config.js
 
 echo "Updating module MMM-OneBusAway"
 scp MMM-OneBusAway.js pi@pi:MagicMirror/modules/MMM-OneBusAway/MMM-OneBusAway.js

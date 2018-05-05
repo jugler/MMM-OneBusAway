@@ -17,18 +17,26 @@ Module.register("MMM-OneBusAway",{
            Log.log("Departures list is empty");
            this.message = "No buses departing soon";
        } else{ //extract times of arrival for the buses
-            var departureMessage = "";
+            var busIcon = document.createElement("img");
+			busIcon.className = "badge";
+			busIcon.src = "modules/MMM-OneBusAway/bus_badge.png";
+            var departureMessage = "<br>";
             for(var departure in this.result){
-                var busShortName = departure['routeShortName'];
-                var busDepartureTimeStamp = departure['predictedDepartureTime'];
-                var busDepartureDate = new Date(busDepartureTimeStamp*1000);
-                Log.log("Departure for route: " + busShortName);
-                Log.log("Departure time: " + busDepartureDate);
-                var dateNow = new Date();
-                var departingInMinutes = (dateNow - busDepartureDate)/60000; //difference in minutes
-                Log.log("Bus departing in: " + departingInMinutes + "mins");
-                departureMessage = departureMessage + busShortName;
-                departureMessage = departureMessage + ":" + departingInMinutes + 'mins\n';
+                if (departure<5){
+                    var departureDetails = this.result[departure]
+                    var busShortName = departureDetails['routeShortName'];
+                    var busDepartureTimeStamp = departureDetails['scheduledArrivalTime'];
+                    var busDepartureDate = new Date(busDepartureTimeStamp);
+                    console.log("Departure for route: " + busShortName);
+                    console.log("Departure time: " + busDepartureDate);
+                    var dateNow = new Date();
+                    var departingInMinutes = (busDepartureDate - dateNow)/60000; //difference in minutes
+                    if (departingInMinutes>0){
+                        departingInMinutes = departingInMinutes.toFixed(0);
+                        console.log(busShortName + ": bus departing in: " + departingInMinutes + "mins");
+                        departureMessage = departureMessage + busShortName + ": " + departingInMinutes + "mins<br>";
+                    }
+                }
             }
             this.message = departureMessage;
        }
@@ -37,6 +45,7 @@ Module.register("MMM-OneBusAway",{
         wrapper.className = "oneBusAway";
         var busesText = document.createElement("span");
         busesText.innerHTML = this.message;
+        wrapper.appendChild(busIcon);
 		wrapper.appendChild(busesText);
 		return wrapper;
     },
