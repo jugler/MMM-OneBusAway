@@ -13,12 +13,12 @@ This module displays ETA for buses using the [OneBusAway API](http://developer.o
 To install, clone this repository into your modules folder. Then add the following to your configuration file:
 ```
 {
-	module: 'MMM-OneBusAway',
-	position: 'top_right',
-	config: {
+    module: 'MMM-OneBusAway',
+    position: 'top_right',
+    config: {
         stopId: "1_905",    //the stop id you want to see the buses ETA
         fadeSpeed: 1000 * 60 // 1 minute
-	}
+    }
 },
 ```
 To get the stopId you want for your location you can use the [OneBusAway API](http://api.pugetsound.onebusaway.org/api/where/stops-for-location.xml?key=TEST&lat=47.619127&lon=-122.329993) with the lattitude and longitude of the stop you want.
