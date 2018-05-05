@@ -19,7 +19,7 @@ Module.register("MMM-OneBusAway", {
             wrapper.appendChild(loadingMessage);
         } else if (this.result.length == 0) { //No buses right now
             var noBuses = document.createElement("span");
-            noBuses.innerHTML = "Checking Bus status...";
+            noBuses.innerHTML = "No bus departures soon.";
             wrapper.appendChild(noBuses);
         } else { //extract times of arrival for the buses
             for (var departureIndex = 0; departureIndex < this.result.length && departureIndex < this.config.maxResults; departureIndex++) {
