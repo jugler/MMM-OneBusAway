@@ -17,6 +17,7 @@ To install, clone this repository into your modules folder. Then add the followi
     position: 'top_right',
     config: {
         stopId: "1_905",    //the stop id you want to see the buses ETA
+        maxResults: 5,      //number of next bus departures to show
         fadeSpeed: 1000 * 60 // 1 minute
     }
 },
@@ -30,4 +31,5 @@ The following properties can be configured:
 | Options | Description|
 | --- | --- |
 |```stopId```| Can be changed to any **string**, must be a valid stopId known by [OneBusAway API](http://api.pugetsound.onebusaway.org/api/where/stops-for-location.xml?key=TEST&lat=47.619127&lon=-122.329993) |
+|```maxResults```| Number of maximum bus departures to show |
 | ```fadeSpeed```| The refresh interval for the buses ETA, in milliseconds|

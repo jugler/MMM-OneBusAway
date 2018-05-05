@@ -8,6 +8,7 @@ module.exports = NodeHelper.create({
 
   getBusesInfo: function (stopId) {
     var self = this;
+    //TODO update api key with a nonTEST one.
     var url = "http://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/" + stopId + ".json?key=TEST";
     request({ url: url, method: 'GET' }, function (error, response, body) {
       if (!error && response.statusCode == 200) {

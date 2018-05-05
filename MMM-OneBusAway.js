@@ -5,6 +5,7 @@ Module.register("MMM-OneBusAway", {
     // Default module config.
     defaults: {
         stopId: "1_905",
+        maxResults: 5,
         fadeSpeed: 1000 * 60 // update every minute
     },
 
@@ -20,9 +21,8 @@ Module.register("MMM-OneBusAway", {
             var noBuses = document.createElement("span");
             noBuses.innerHTML = "Checking Bus status...";
             wrapper.appendChild(noBuses);
-            this.message = "No buses departing soon";
         } else { //extract times of arrival for the buses
-            for (var departureIndex = 0; departureIndex < this.result.length && departureIndex < 5; departureIndex++) {
+            for (var departureIndex = 0; departureIndex < this.result.length && departureIndex < this.config.maxResults; departureIndex++) {
                 var departureDetails = this.result[departureIndex]
                 var busShortName = departureDetails['routeShortName'];
                 var busDepartureTimeStamp = departureDetails['scheduledArrivalTime'];
@@ -64,8 +64,8 @@ Module.register("MMM-OneBusAway", {
         this.getBusesInfo();
         var self = this;
         setInterval(function () {
-            self.getBusesInfo(); // no speed defined, so it updates instantly.
-        }, self.config.fadeSpeed); //perform every 1000 milliseconds.
+            self.getBusesInfo(); 
+        }, self.config.fadeSpeed);
 
     },
 
