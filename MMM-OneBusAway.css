@@ -7,6 +7,7 @@
 
 .MMM-OneBusAwayuber .badge {
     position: center;
+    padding-top: 5px;
 	padding-right: 10px;
 	margin-top: 10px;
 }
@@ -14,8 +15,6 @@
 .MMM-OneBusAway .oneBusAway span {
 	font-family: 'Helvetica Neue';
 	font-weight: 300;
-	font-size: 16pt;
-	font-color: #C0C0C8;
-	/*padding: 10px;*/
-	
+    font-size: 16pt;
+    color: #C0C0C8;	
 }
