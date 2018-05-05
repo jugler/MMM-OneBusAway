@@ -13,40 +13,43 @@ Module.register("MMM-OneBusAway",{
 
 	// Override dom generator.
 	getDom: function() {
-       if (this.result.length==0){
-           Log.log("Departures list is empty");
-           this.message = "No buses departing soon";
-       } else{ //extract times of arrival for the buses
-            var busIcon = document.createElement("img");
-			busIcon.className = "badge";
-			busIcon.src = "modules/MMM-OneBusAway/bus_badge.png";
-            var departureMessage = "<br>";
-            for(var departure in this.result){
-                if (departure<5){
-                    var departureDetails = this.result[departure]
-                    var busShortName = departureDetails['routeShortName'];
-                    var busDepartureTimeStamp = departureDetails['scheduledArrivalTime'];
-                    var busDepartureDate = new Date(busDepartureTimeStamp);
-                    console.log("Departure for route: " + busShortName);
-                    console.log("Departure time: " + busDepartureDate);
-                    var dateNow = new Date();
-                    var departingInMinutes = (busDepartureDate - dateNow)/60000; //difference in minutes
-                    if (departingInMinutes>0){
-                        departingInMinutes = departingInMinutes.toFixed(0);
-                        console.log(busShortName + ": bus departing in: " + departingInMinutes + "mins");
-                        departureMessage = departureMessage + busShortName + ": " + departingInMinutes + "mins<br>";
-                    }
-                }
-            }
-            this.message = departureMessage;
-       }
-        var html = this.message;
         var wrapper = document.createElement("div");
         wrapper.className = "oneBusAway";
-        var busesText = document.createElement("span");
-        busesText.innerHTML = this.message;
-        wrapper.appendChild(busIcon);
-		wrapper.appendChild(busesText);
+        if (this.result.length==0){
+            Log.log("Departures list is empty");
+            this.message = "No buses departing soon";
+        } else{ //extract times of arrival for the buses
+                for(var departure in this.result){
+                    if (departure<5){
+                        var busIcon = document.createElement("img");
+                        busIcon.className = "badge";
+                        busIcon.src = "modules/MMM-OneBusAway/oba_logo.png";
+                        busIcon.style.height = "22px";
+                        busIcon.style.width = "22px";
+                        var nextStop = document.createElement("div");
+                        var nextStopText = document.createElement("span");
+                        var departureDetails = this.result[departure]
+                        var busShortName = departureDetails['routeShortName'];
+                        var busDepartureTimeStamp = departureDetails['scheduledArrivalTime'];
+                        var busDepartureDate = new Date(busDepartureTimeStamp);
+                        console.log("Departure for route: " + busShortName);
+                        console.log("Departure time: " + busDepartureDate);
+                        var dateNow = new Date();
+                        var departingInMinutes = (busDepartureDate - dateNow)/60000; //difference in minutes
+                        if (departingInMinutes>0){
+                            departingInMinutes = departingInMinutes.toFixed(0);
+                            var departureMessage =  busShortName + ": " + departingInMinutes + "mins";
+                            console.log(departureMessage);
+                            nextStopText.innerHTML = departureMessage;
+                            nextStop.appendChild(busIcon);
+                            nextStop.appendChild(nextStopText);
+                            wrapper.appendChild(nextStop);
+                        }
+                    }
+                }
+                this.message = departureMessage;
+        }
+        
 		return wrapper;
     },
     getStyles: function() {
