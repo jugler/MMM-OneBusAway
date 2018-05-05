@@ -3,9 +3,10 @@
 
 ![Alt text](/img/screenshot.png?raw=true "A preview of the MMM-OneBusAway module.")
 
-A module for the [Magic Mirror](https://magicmirror.builders/). This module displays ETA for buses using the OneBusAway API
+A module for the [Magic Mirror](https://magicmirror.builders/). 
 
-The module uses [OneBusAway API](http://developer.onebusaway.org/modules/onebusaway-application-modules/1.1.13/api/where/index.html)
+This module displays ETA for buses using the [OneBusAway API](http://developer.onebusaway.org/modules/onebusaway-application-modules/1.1.13/api/where/index.html)
+
 
 ## Installation
 
@@ -15,7 +16,7 @@ To install, clone this repository into your modules folder. Then add the followi
 	module: 'MMM-OneBusAway',
 	position: 'top_right',
 	config: {
-		stopId: "1_905",    //the stop id you want to see the buses ETA
+        stopId: "1_905",    //the stop id you want to see the buses ETA
         fadeSpeed: 1000 * 60 // 1 minute
 	}
 },
