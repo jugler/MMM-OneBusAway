@@ -4,9 +4,10 @@ Module.register("MMM-OneBusAway", {
     result: [],
     // Default module config.
     defaults: {
-        stopId: "1_905",
+        stopId: "1_2672",
         maxResults: 5,
-        fadeSpeed: 1000 * 60 // update every minute
+        fadeSpeed: 1000 * 60, // update every minute
+        buses: []
     },
 
     // Override dom generator.
@@ -22,12 +23,16 @@ Module.register("MMM-OneBusAway", {
             noBuses.innerHTML = "No bus departures soon.";
             wrapper.appendChild(noBuses);
         } else { //extract times of arrival for the buses
-            for (var departureIndex = 0; departureIndex < this.result.length && departureIndex < this.config.maxResults; departureIndex++) {
+            var validResults = 0;
+            for (var departureIndex = 0; departureIndex < this.result.length && validResults < this.config.maxResults; departureIndex++) {
                 var departureDetails = this.result[departureIndex]
-                var busShortName = departureDetails['routeShortName'];
-                var busDepartureTimeStamp = departureDetails['scheduledArrivalTime'];
-                var busEntry = this.getBusEntry(busShortName, busDepartureTimeStamp);
-                wrapper.appendChild(busEntry);
+                if (this.config.buses.indexOf(departureDetails['routeId']) != -1){
+                    var busShortName = departureDetails['routeShortName'];
+                    var busDepartureTimeStamp = departureDetails['scheduledArrivalTime'];
+                    var busEntry = this.getBusEntry(busShortName, busDepartureTimeStamp);
+                    wrapper.appendChild(busEntry);
+                    validResults++;
+                }
             }
         }
         return wrapper;

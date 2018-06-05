@@ -1,11 +1,11 @@
 .MMM-OneBusAway {
 	position: relative;
 	top: 50%;
-	transform: translateY(-50%);
+	transform: translateY(-0%);
 	margin-top: 50px;
 }
 
-.MMM-OneBusAwayuber .badge {
+.MMM-OneBusAway .badge {
 	position: center;
 	padding-top: 5px;
 	padding-right: 10px;
