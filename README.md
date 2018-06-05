@@ -33,6 +33,5 @@ The following properties can be configured:
 | --- | --- |
 |```stopId```| Can be changed to any **string**, must be a valid stopId known by [OneBusAway API](http://api.pugetsound.onebusaway.org/api/where/stops-for-location.xml?key=TEST&lat=47.619127&lon=-122.329993) |
 |```buses```| List of any **string** that you want to filter on, must be a valid routeId known by [OneBusAway API](http://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/1_2672.json?key=TEST) |
-
 |```maxResults```| Number of maximum bus departures to show |
 | ```fadeSpeed```| The refresh interval for the buses ETA, in milliseconds|
